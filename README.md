@@ -14,15 +14,14 @@ tns plugin add nativescript-root-detection
 
 To use the plugin do the following
 	
-	```javascript
+```javascript
 	import {RootDetection} from 'nativescript-root-detection';
 	.....
 	const rooted = RootDetection.isDeviceRooted();
 	if(rooted) {
 	    // Any logic that you need
 	}
-    ```
-
+```
 ## Android Detection
 
 For Android the following library is used for detection 
