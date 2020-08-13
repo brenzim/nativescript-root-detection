@@ -1,5 +1,5 @@
 import {Common} from './root-detection.common';
-import {File} from 'tns-core-modules/file-system';
+import {File, Folder} from 'tns-core-modules/file-system';
 
 const knownLocations = [
     "/Applications/Cydia.app",
@@ -35,7 +35,35 @@ export class RootDetection extends Common {
                 rooted = true;
             }
         });
+        if (!rooted) {
+            return this.canWriteToSystemDirectories();
+        }
         return rooted;
+    }
+
+    private static canWriteToSystemDirectories(): boolean {
+        let stringToWrite = "Jailbreak Test";
+        let privateDir = "/private/";
+        let applicationDir = "/Applications";
+        if (Folder.exists(privateDir)) {
+            let path = "/private/jailbreak.txt";
+            let systemDir = File.fromPath(path);
+
+            systemDir.writeText(stringToWrite).then(result => {
+                return true;
+            }).catch(err => {
+            });
+        }
+        if (Folder.exists(applicationDir)) {
+            let path = "/Applications/jailbreak.txt";
+            let dir = File.fromPath(path);
+
+            dir.writeText(stringToWrite).then(result => {
+                return true;
+            }).catch(err => {
+            });
+        }
+        return false;
     }
 
 }
